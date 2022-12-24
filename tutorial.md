@@ -54,8 +54,8 @@ import { reactive } from 'vue'
   let reCar = reactive(car);
   
   function logChange(){
-    console.log(`refMsg value: ${car.colour}`);
-    console.log(`refMsg value: ${reCar.colour}`);
+    console.log(`car.colour value: ${car.colour}`);
+    console.log(`reactCar.colour value: ${reCar.colour}`); <!-- 1 -->
   }
 </script>
 
@@ -63,7 +63,7 @@ import { reactive } from 'vue'
   car: <input v-model="car.colour"><br/>
   <h1>{{car.colour}}</h1>
   reactive car: <input v-model="reCar.colour"><br/>
-  <h1>{{reCar.colour}}</h1>
+  <h1>{{reCar.colour}}</h1>.   <!-- 1 -->
   <button @click="logChange">
     log change
   </button>
@@ -72,5 +72,6 @@ import { reactive } from 'vue'
 ### Excercise
 * Change the data in the `car:` input and notice that you do not see changes
 * Change the data in `reactive car:` input and notice that changes are visible in both inputs and outputs
+* Notice in `<!-- 1 -->` above that with reactive the `.value` suffix is never used
 
 * see reactive and ref limitations [here](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive)
