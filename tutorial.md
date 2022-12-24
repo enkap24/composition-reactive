@@ -75,3 +75,88 @@ import { reactive } from 'vue'
 * Notice in `<!-- 1 -->` above that with reactive the `.value` suffix is never used
 
 * see reactive and ref limitations [here](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive)
+
+
+## Reactive vs ref
+* Below is an example of `ref` and `reactive` on arrays
+* In the exercises you will see that `reactive` is not that reactive when removing values from arrays
+
+
+```
+<script setup>
+import { ref, reactive } from 'vue'
+
+let id = 0
+
+const newTodo = ref('');
+const hideCompleted = ref(false);
+let todos = reactive([
+  { id: id++, text: 'Learn HTML', done: true },
+  { id: id++, text: 'Learn JavaScript', done: true },
+  { id: id++, text: 'Learn Vue', done: false }
+]);
+let refTodos = ref([
+  { id: id++, text: 'Learn HTML', done: true },
+  { id: id++, text: 'Learn JavaScript', done: true },
+  { id: id++, text: 'Learn Vue', done: false }
+]);
+
+
+function addTodo() {
+  todos.push({ id: id++, text: newTodo.value, done: false })
+  newTodo.value = ''
+}
+
+function removeTodo(todo) {
+  todos = todos.filter((t) => t !== todo)
+}
+function addRefTodo() {
+  refTodos.value.push({ id: id++, text: newTodo.value, done: false })
+  newTodo.value = ''
+}
+
+function removeRefTodo(todo) {
+  refTodos.value = refTodos.value.filter((t) => t !== todo)
+}
+</script>
+
+<template>
+    <form @submit.prevent="addTodo">
+    <input v-model="newTodo">
+    <button>Add Todo</button>
+  </form>
+
+  <ul>
+    <li v-for="todo in todos" :key="todo.id">
+      {{ todo.text }}
+      <button @click="removeTodo(todo)">X</button>
+    </li>
+  </ul>
+  
+  
+  <h1>
+    RefTodos
+  </h1>
+    <form @submit.prevent="addRefTodo">
+    <input v-model="newTodo">
+    <button>Add Todo</button>
+  </form>
+    <ul>
+    <li v-for="todo in refTodos" :key="todo.id">
+      {{ todo.text }}
+      <button @click="removeRefTodo(todo)">X</button>
+    </li>
+  </ul>
+
+</template>
+
+<style>
+.done {
+  text-decoration: line-through;
+}
+</style>
+```
+
+
+
+
